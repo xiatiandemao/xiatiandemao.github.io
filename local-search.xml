@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>获取内网与出口的 ip 地址</title>
+    <link href="/2019/03/19/test/"/>
+    <url>/2019/03/19/test/</url>
+    
+    <content type="html"><![CDATA[<p>获取内网与出口的 ip 地址</p><span id="more"></span><h2 id="内网-ip"><a href="#内网-ip" class="headerlink" title="内网 ip"></a>内网 ip</h2><blockquote><ol><li>获取到的 ip 可能会有多个（比如 127.0.0.1 等等），结果用空格隔开</li></ol></blockquote><figure class="highlight coq"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs coq">ifconfig | <span class="hljs-type">grep</span> -A <span class="hljs-number">1</span> <span class="hljs-string">&quot;inet&quot;</span> | <span class="hljs-type">grep</span> netmask | <span class="hljs-type">cut</span> -d <span class="hljs-string">&quot; &quot;</span> -f <span class="hljs-number">2</span> | <span class="hljs-type">tr</span> <span class="hljs-string">&quot;\n&quot;</span> <span class="hljs-string">&quot; &quot;</span>`<br></code></pre></div></td></tr></table></figure><blockquote><p>获取到的 ip 只有一个（不需要联网）</p></blockquote><figure class="highlight llvm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs llvm">python -<span class="hljs-keyword">c</span> <span class="hljs-string">&quot;import socket;print(socket.gethostbyname(socket.gethostname()))&quot;</span><br></code></pre></div></td></tr></table></figure><blockquote><p>获取到的 ip 只有一个（需要联网）</p></blockquote><figure class="highlight scss"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs scss">python -c &quot;import socket;print([(s.connect((&#x27;<span class="hljs-number">8.8</span>.<span class="hljs-number">8.8</span>&#x27;, <span class="hljs-number">53</span>)), s<span class="hljs-selector-class">.getsockname</span>()<span class="hljs-selector-attr">[0]</span>, s<span class="hljs-selector-class">.close</span>()) for s in <span class="hljs-selector-attr">[socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]</span>]<span class="hljs-selector-attr">[0]</span><span class="hljs-selector-attr">[1]</span>)&quot;<br></code></pre></div></td></tr></table></figure><p><strong>通常 2 与 3 结合使用，利用 cmd1||cmd2 执行，即：执行 cmd1 失败时，执行 cmd2</strong></p><figure class="highlight inform7"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs inform7">python -c <span class="hljs-string">&quot;import socket;print(<span class="hljs-subst">[(s.connect((&#x27;8.8.8.8&#x27;, 53)), s.getsockname()[0]</span>, s.close()) for s in <span class="hljs-subst">[socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]</span>]<span class="hljs-subst">[0]</span><span class="hljs-subst">[1]</span>)&quot;</span>||python -c <span class="hljs-string">&quot;import socket;print(socket.gethostbyname(socket.gethostname()))&quot;</span><br></code></pre></div></td></tr></table></figure><h2 id="出口-ip"><a href="#出口-ip" class="headerlink" title="出口 ip"></a>出口 ip</h2><p>当 {query} 为空时，就是自己的 ip，不为空时，则查询指定 ip/域名 的信息:</p><figure class="highlight vim"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs vim">curl -s http<span class="hljs-variable">s:</span>//ip.<span class="hljs-keyword">cn</span>/<span class="hljs-built_in">index</span>.php?ip=&#123;query&#125;<br></code></pre></div></td></tr></table></figure><blockquote><p>update in: 2019-06-07 09:55:58</p></blockquote><p>以上接口似乎失效了，换一个：</p><figure class="highlight armasm"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs armasm"><span class="hljs-symbol">curl</span> -L tool.lu/<span class="hljs-built_in">ip</span><br></code></pre></div></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>经验总结</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+      <tag>Python</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
